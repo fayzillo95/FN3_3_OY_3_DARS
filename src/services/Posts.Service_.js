@@ -1,10 +1,9 @@
-import Posts_Modules_ from "../Modules/Posts_Modules_.js";
-import User_Module_ from "../Modules/User_Module_.js";
+import Post_Model_ from "../Modules/Post_Model_.js";
+import User_Model_ from "../Modules/User_Model_.js";
 import CustomError from "../utils/Custum.Error_.js";
 
 import {Types} from "mongoose";
 const isValidId = Types.ObjectId.isValid;
-
 
 async function isvalidData(data) {
     if(!data.user_id) throw new CustomError("Invalid data not found user_id  ! ",400)
@@ -15,7 +14,7 @@ async function isvalidData(data) {
         }
         if(key == 'user_id'){
             if(!isValidId(data[key])) throw new CustomError("Invalid Userid  ! ",400)
-            const user = User_Module_.findById(data[key])
+            const user = User_Model_.findById(data[key])
             if(!user) throw new CustomError(`User not found ! post created not acceptly`,406);
         }
     }
@@ -38,22 +37,22 @@ export default class PostsService {
     constructor() {}
 
     async getAll () {
-        const posts = await Posts_Modules_.find()
+        const posts = await Post_Model_.find()
         return posts;
     }
     async getById(id) {
-        const result = await Posts_Modules_.findById(id)
+        const result = await Post_Model_.findById(id)
         if(!result) throw new CustomError("Post not found ! ",404);
         return result;        
     }
     async createItem(data) {
         isvalidData(data)
-        const result = new Posts_Modules_.create(data);
+        const result = Post_Model_.create(data);
         return result;        
     }
     async deleteItem(id) {
         if(!isValidId(id)) throw new CustomError("Invalid id ",400);
-        const result = await Posts_Modules_.findByIdAndDelete(id)
+        const result = await Post_Model_.findByIdAndDelete(id)
         if(!result) throw new CustomError("Post not found ! ",404);
         return result;
     }

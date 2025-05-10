@@ -1,5 +1,5 @@
-import Posts_Modules_ from "../Modules/Posts_Modules_.js";
-import User_Module_ from "../Modules/User_Module_.js";
+import Post_Model_ from "../Modules/Post_Model_.js";
+import User_Model_ from "../Modules/User_Model_.js";
 import CustomError from "../utils/Custum.Error_.js";
 
 import {Types} from "mongoose";
@@ -59,34 +59,34 @@ export default class UserService {
     constructor() {}
 
     async getAll () {
-        const users = await User_Module_.find().populate("posts");
+        const users = await User_Model_.find().populate("posts");
         return users;
     }
     async get_user_and_Post (id) {
         if(!isValidId(id)) throw new CustomError("Invalid id ",400)
-        const user = await User_Module_.findById({_id:id}).populate("posts");
+        const user = await User_Model_.findById({_id:id}).populate("posts");
         return user;
     }
     async getByQuery (query) {
-        const users = await User_Module_.find(query);
+        const users = await User_Model_.find(query);
         return users;
     }
     async getById(id) {
         if(!isValidId(id)) throw new CustomError("Invalid id ",400)
-        const user = await User_Module_.findById({_id:id});
+        const user = await User_Model_.findById({_id:id});
         return user;
     }
     async createItem(data) {
         await isvalidData(data)
         data.age = parseInt(data.age)
-        const result = await new User_Module_.create(data)
+        const result = await User_Model_.create(data)
         return result;
     }
     async deleteItem(id) {
         if(!isValidId(id)) throw new CustomError("Invalid id ",400)
         
-        const posts = await Posts_Modules_.find({user_id:id})
-        const user = await User_Module_.findById(id)
+        const posts = await Post_Model_.find({user_id:id})
+        const user = await User_Model_.findById(id)
 
         if(posts) throw new CustomError({
                 message:"Delete user not acceptly",
@@ -95,7 +95,7 @@ export default class UserService {
                     posts
                 }
             },406)
-        const result = await User_Module_.findByIdAndDelete({_id:id})
+        const result = await User_Model_.findByIdAndDelete({_id:id})
         
         if(!result) throw new CustomError("User not found ! ",404)
         return result;            
@@ -103,8 +103,8 @@ export default class UserService {
     async updateItem(data, id) {
         if(!isValidId(id)) throw new CustomError("Invalid id ",400)
         await isValidUpdated_data(data)
-        const result = await User_Module_.findByIdAndUpdate({_id:id},data)
-        const newData = await User_Module_.findById(id)
+        const result = await User_Model_.findByIdAndUpdate({_id:id},data)
+        const newData = await User_Model_.findById(id)
         if(!result) throw new CustomError("User not found ! ",404)
         return {
             oldData:result,

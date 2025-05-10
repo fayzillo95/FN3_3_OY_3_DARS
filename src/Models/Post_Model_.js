@@ -1,6 +1,6 @@
 import {Schema,model} from "mongoose"
 
-import User_Module_ from "./User_Module_.js"
+import User_Model_ from "./User_Model_.js"
 
 export default new model("Post", new Schema({
     title:{
