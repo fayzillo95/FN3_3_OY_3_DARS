@@ -38,6 +38,18 @@ export default class UserController {
             next(error)
         }
     }
+    async getUserByid_and_post (req, res, next) {
+        try {
+            const data = await this.servise.get_user_and_Post(req.params.id)
+            return res.status(200).json({
+                message:"User read complieted ",
+                success:true,
+                data
+            });            
+        } catch (error) {
+            next(error);
+        }
+    }
     async creteUser (req, res, next) {
         try {
             const data = this.servise.getById(req.params.id);
