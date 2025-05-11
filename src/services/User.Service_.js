@@ -1,8 +1,8 @@
-import Post_Model_ from "../Modules/Post_Model_.js";
-import User_Model_ from "../Modules/User_Model_.js";
+import Post_Model_ from "../Models/Post_Model_.js";
+import User_Model_ from "../Models/User_Model_.js";
 import CustomError from "../utils/Custum.Error_.js";
 
-import {Types} from "mongoose";
+import mongoose, {Types} from "mongoose";
 const isValidId = Types.ObjectId.isValid;
 
 
@@ -64,8 +64,9 @@ export default class UserService {
     }
     async get_user_and_Post (id) {
         if(!isValidId(id)) throw new CustomError("Invalid id ",400)
-        const user = await User_Model_.findById({_id:id}).populate("posts");
-        return user;
+        let user = await User_Model_.findById(id)    
+        let posts = await Post_Model_.find({user_id:id});
+        return [user,posts];
     }
     async getByQuery (query) {
         const users = await User_Model_.find(query);
@@ -77,10 +78,11 @@ export default class UserService {
         return user;
     }
     async createItem(data) {
-        await isvalidData(data)
-        data.age = parseInt(data.age)
-        const result = await User_Model_.create(data)
-        return result;
+            await isvalidData(data)
+            data.age = parseInt(data.age)
+            const result = await User_Model_.create(data)
+            return result;
+
     }
     async deleteItem(id) {
         if(!isValidId(id)) throw new CustomError("Invalid id ",400)

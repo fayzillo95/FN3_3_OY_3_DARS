@@ -7,7 +7,7 @@ export default class PostsController {
 
     async getAll (req, res, next) {
         try {
-            const data = this.servise.getAll()
+            const data = await this.servise.getAll()
             res.status(200).json({
                 success:true,
                 message:"Posts read complieted ",
@@ -19,7 +19,7 @@ export default class PostsController {
     }
     async getById (req, res, next) {
         try {
-            const data = this.servise.getById(req.params.id)
+            const data = await this.servise.getById(req.params.id)
             res.status(200).json({
                 success:true,
                 message:"Posts read complieted ",
@@ -30,8 +30,9 @@ export default class PostsController {
         }
     }
     async createPost (req, res, next) {
+        console.log("POstcreator")
         try {
-            const data = this.servise.createItem(req.body)
+            const data = await this.servise.createItem(req.body)
             res.status(201).json({
                 success:true,
                 message:"Post created complieted ",
@@ -43,7 +44,7 @@ export default class PostsController {
     }
     async updatePost (req, res, next) {
         try {
-            const data = this.servise.updateItem(req.body, req.params.id)
+            const data = await this.servise.updateItem(req.body, req.params.id)
             res.status(200).json({
                 success:true,
                 message:"Posts updated complieted ",
@@ -55,7 +56,7 @@ export default class PostsController {
     }
     async deletePost (req, res, next) {
         try {
-            const data = this.servise.deleteItem(req.params.id)
+            const data = await this.servise.deleteItem(req.params.id)
             res.status(200).json({
                 success:true,
                 message:"Post deleted complieted ",

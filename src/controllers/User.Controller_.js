@@ -28,7 +28,7 @@ export default class UserController {
     }
     async getById(req, res, next) {
         try {
-            const data = this.servise.getById(req.params.id);
+            const data = await this.servise.getById(req.params.id);
             return res.status(200).json({
                 message:"User read complieted ",
                 success:true,
@@ -52,7 +52,7 @@ export default class UserController {
     }
     async creteUser (req, res, next) {
         try {
-            const data = this.servise.getById(req.params.id);
+            const data = await this.servise.createItem(req.body);
             return res.status(201).json({
                 message:"User created complieted ",
                 success:true,

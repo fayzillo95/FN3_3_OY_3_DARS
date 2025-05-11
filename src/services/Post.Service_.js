@@ -1,5 +1,5 @@
-import Post_Model_ from "../Modules/Post_Model_.js";
-import User_Model_ from "../Modules/User_Model_.js";
+import Post_Model_ from "../Models/Post_Model_.js";
+import User_Model_ from "../Models/User_Model_.js";
 import CustomError from "../utils/Custum.Error_.js";
 
 import {Types} from "mongoose";
@@ -56,8 +56,11 @@ export default class PostsService {
         if(!result) throw new CustomError("Post not found ! ",404);
         return result;
     }
-    async updateItem(data, id) {
+    async updateItem(bpdy, id) {
         if(!isValidId(id)) throw new CustomError("Invalid id ",400)
-        await isValidUpdated_data(data)
+        await isValidUpdated_data(body)
+        const  result  = await Post_Model_.findByIdAndUpdate({_id:id},body)
+        if(!result) throw new CustomError("Post not found ! ",404);
+        return result;
     }
 }
