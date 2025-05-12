@@ -21,5 +21,4 @@ const initApp = async () =>{
         console.log("Databasa ulanmagan database xatoligi ",process.env.MONGODB_URI)
     }
 }
-
 initApp()
